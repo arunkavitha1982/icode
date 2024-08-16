@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="profile.css">
+    <script defer src="profile.js"></script>
+
+    <style>
+        body {
+            background-color: #f6f6f6;
+        }
+
+        /* Loading  */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0A8080;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-outline-light:hover {
+            background-color: #0A8080;
+            color: white;
+        }
+
+        .box-sty {
+            max-width: 800px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .material-textfield {
+            position: relative;
+            margin-bottom: 1.5rem;
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .material-textfield input,
+        .material-textfield textarea {
+            width: 110%;
+            padding: 0.5rem;
+            padding-top: 1rem;
+            font-size: 1rem;
+            border: 1px solid #0A8080 !important;
+            border-radius: 10px !important;
+            box-sizing: border-box;
+        }
+
+        .material-textfield label {
+            position: absolute;
+            top: 12px;
+            left: 0.75rem;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 0 0.25rem;
+            color: #0A8080;
+            pointer-events: none;
+        }
+
+        .material-textfield input:focus+label,
+        .material-textfield input:not(:placeholder-shown)+label,
+        .material-textfield textarea:focus+label,
+        .material-textfield textarea:not(:placeholder-shown)+label {
+            top: -0.75rem;
+            left: 0.75rem;
+            font-size: 0.75rem;
+            color: #0A8080;
+        }
+
+        .material-textfield input:focus,
+        .material-textfield textarea:focus {
+            outline: none;
+            border-color: #0A8080;
+            box-shadow: 0 0 0px;
+        }
+
+        .btn-green {
+            color: white;
+            background-color: #0A8080;
+            padding: 10px 30px;
+            border: none;
+            font-weight: 600;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .btn-green:hover {
+            opacity: 0.8;
+            color: white;
+        }
+
+        #errorLName,
+        #errorFName {
+            color: red !important;
+        }
+
+        .logo-sty {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #0A8080;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-sty input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #dropDown {
+            color: #0A8080;
+        }
+
+        #address {
+            width: 126%;
+            margin-left: -10.5%;
+        }
+
+        #address_lable {
+            margin-left: -10%;
+        }
+
+        .yes-button {
+            background-color: #0A8080;
+            border: none;
+            color: white;
+            padding: 5px 21px;
+
+            /* padding: 0.8rem; */
+            font-size: 1.2rem;
+        }
+
+        .yes-button:hover {
+            color: white;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #0A8080;
+            color: white;
+        }
+
+        .btn-outline-green {
+            color: #0A8080;
+            border: solid 1px #0A8080;
+            padding: 5px 21px;
+        }
+
+
+        .btn-outline-green:hover {
+            color: #0A8080;
+            background-color: white;
+        }
+
+        .modal-header {
+            background-color: #0A8080;
+            color: white;
+        }
+
+        @media (max-width: 576px) {
+            .material-textfield {
+                width: 100%;
+            }
+
+            #address {
+                width: 110%;
+                margin-left: 0;
+            }
+
+            #address_lable {
+                margin-left: -1%;
+            }
+        }
+
+        .no {
+            color: #0A8080 !important;
+            border: solid 1px #0A8080 !important;
+            padding: 5px 21px !important;
+        }
+       
+        .yes {
+            color: white;
+            background-color: #0A8080;
+            padding: 5px 24px !important;
+        }
+        .yes:hover {
+            color: white;
+            background-color: #0A8080;
+            padding: 5px 24px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-green">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="device.html">Device</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="employee_list.html">Employee Management</a>
+                        </li>
+                        <li class="nav-item dropdown me-4">
+                            <a class="nav-link dropdown-toggle" href="#service" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Report
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="report_summary.html" id="dropDown">Report Summary</a>
+                                </li>
+                                <li><a class="dropdown-item" href="report_setting.html" id="dropDown">Report
+                                        Settings</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item me-4">
+                            <a class="nav-link  rounded-pill-active px-3" href="profile.html">Profile</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="contact.html">Contact Us</a>
+                        </li>
+
+                    </ul>
+                    <div>
+                        <a href="#" class="btn btn-outline-light" onclick="logOutACtion()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    
+    <h3 class="text-center fw-bold mb-3 mt-4" id="header">Profile</h3>
+    <div class="overlay" id="overlay">
+        <div class="spinner"></div>
+    </div>
+    <div class="rounded-circle logo-sty">
+        <img src="" alt="Company Logo" id="logo-img" class="logo-img">
+        <input type="file" accept="image/*" onchange="loadFile(event)">
+    </div>
+
+    <div class="container box-sty mt-3">
+        <form id="settingsForm" class="p-5 text-center">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="companyName" placeholder=" " type="text" class="input-sty" disabled>
+                        <label class="label-sty">Company Name</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="username" placeholder=" " type="text" class="input-sty" disabled>
+                        <label class="label-sty">Username</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="password" placeholder=" " type="password" class="input-sty">
+                        <label class="label-sty">Password</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="companyAddress" placeholder=" " type="text" class="input-sty">
+                        <label class="label-sty">Company Address</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="fName" placeholder=" " type="text" class="input-sty">
+                        <label class="label-sty">First name</label>
+                        <span class="text-danger" id="errorFName"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="lName" placeholder=" " type="text" class="input-sty">
+                        <label class="label-sty">Last name</label>
+                        <span class="text-danger" id="errorLName"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-4">
+                        <input id="email" placeholder=" " type="email" class="input-sty">
+                        <label class="label-sty">Email</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="material-textfield mb-3">
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder=" " class="input-sty"
+                            oninput="formatPhoneNumber()">
+                        <label class="label-sty">Phone Number</label>
+                        <span class="text-danger" id="showMsg3"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="material-textfield mb-4">
+                        <input id="address" placeholder=" " type="text" class="input-sty">
+                        <label class="label-sty" id="address_lable">Address</label>
+                        <span class="text-danger" id="errorEmail"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn-green float-end">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEntryModalLabel">Delete</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <h5 class="fw-bold mb-3">Are you sure you want to logout?</h5>
+                    <button class="btn yes" id="logBtn" style="margin-left: 2%;">Yes</button>
+                    <button class="btn no" data-bs-dismiss="modal" style="margin-left: 2%;">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logoutCall() {
+            localStorage.removeItem("username");
+            localStorage.removeItem("companyID");
+            localStorage.removeItem("customId");
+            localStorage.removeItem("password");
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 10);
+        }
+
+        document.getElementById("logBtn").addEventListener("click", logoutCall);
+
+        function logOutACtion() {
+            let myModal = new bootstrap.Modal(document.getElementById('addEntryModal'));
+            myModal.show();
+        }
+    </script>
+
+</body>
+</html>

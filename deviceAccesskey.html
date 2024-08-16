@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- UUID Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="employee_list.css">
+</head>
+
+<style>
+    /* Loading overlay styles */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .overlay .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #0A8080;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* #deviceCheck {
+        display: none;
+    } */
+
+    #para {
+        margin-top: 15%;
+    }
+
+    #addButton {
+        border: 1px solid #0A8080;
+        color: #0A8080;
+        background-color: white;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+    <div class="overlay" id="overlay">
+        <div class="spinner"></div>
+    </div>
+    <div class="text-center mt-5 button" id="deviceCheck">
+        <p id="para">No device Added</p>
+        <button id="addButton" onclick="addData()">Add device</button>
+    </div>
+
+    
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" 
+        integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-lpy6NvsqGTTU71faJu3Q1LG5dd1y8GJFuO7DRnO8TjzLe3GA/7EUEs3cz3C6pXl4" crossorigin="anonymous"></script> -->
+
+    <script>
+        const apiUrlBase = "https://397vncv6uh.execute-api.us-west-2.amazonaws.com/test/device";
+
+        function accessKeyCreate(firstFourDigit, lastFourDigit) {
+            const createUuidForAccessKey = uuid.v4().replace(/-/g, '').substring(0, 6);
+            return firstFourDigit + createUuidForAccessKey + lastFourDigit;
+        }
+
+        function addData() {
+            document.getElementById("deviceCheck").style.display = "none";
+            document.getElementById('overlay').style.display = 'flex';
+            const accesskeyvalFirstDigit = Math.random().toString(36).substring(2, 6);
+            const accesskeyvalLastDigit = Math.random().toString(36).substring(2, 6);
+            const accessKey = accessKeyCreate(accesskeyvalFirstDigit, accesskeyvalLastDigit);
+
+            const newDevice = {
+                TimeZone: "Not Registered",
+                DeviceID: "Not Registered",
+                CID: localStorage.getItem('companyID'),
+                DeviceName: "Not Registered",
+                AccessKey: accessKey,
+                AccessKeyGeneratedTime: new Date().toISOString()
+            };
+
+            fetch(`${apiUrlBase}/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newDevice)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`Error: ${response.status} - ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Device added successfully:', data);
+                    window.location.href = 'index.html';
+                    // viewDevices(); // Ensure this function is defined
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    document.getElementById('overlay').style.display = 'none';
+                });
+            
+        }
+    </script>
+</body>
+
+</html>

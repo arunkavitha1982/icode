@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="form.css">
+    <script defer src="contact.js"></script>
+    <!-- <script defer src="logout.js"></script> -->
+    <link rel="stylesheet" href="employee_list.css">
+    <!-- <link rel="stylesheet" href="report_summary.css"> -->
+</head>
+
+<style>
+    .btn-green-contact-sty {
+        color: white;
+        background-color: #0A8080;
+        padding: 5px 30px;
+
+    }
+
+
+
+    .btn-outline-green:hover {
+        color: #0A8080;
+        background-color: white;
+    }
+
+    .no {
+        color: #0A8080 !important;
+        border: solid 1px #0A8080 !important;
+        padding: 5px 21px !important;
+    }
+
+    .yes {
+        color: white;
+        background-color: #0A8080;
+        padding: 5px 24px !important;
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-green">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="device.html">Device</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="employee_list.html">Employee Management</a>
+                        </li>
+                        <li class="nav-item dropdown me-4">
+                            <a class="nav-link dropdown-toggle" href="#service" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Report
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="report_summary.html" id="dropDown">Report Summary</a>
+                                </li>
+                                <li><a class="dropdown-item" href="report_setting.html" id="dropDown">Report
+                                        Settings</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="profile.html">Profile</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link rounded-pill-active px-3" href="contact.html">Contact Us</a>
+                        </li>
+
+                    </ul>
+                    <div>
+                        <a href="#" class="btn btn-outline-light" onclick="logOutACtion()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <div class="container box-sty mt-5">
+            <h3 class="modal-title text-center fw-bold mb-3" id="myModalLabel">Contact Us</h3>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form id="contact_form" class="p-2 text-center">
+                            <div class="material-textfield mb-3 form-group">
+                                <input id="cname" class="form-control" placeholder=" " type="text" required
+                                    onblur="validCName()">
+                                <label class="cname">Name <span class="text-danger">*</span></label>
+                                <span id="error-name" class="text-danger"></span>
+                            </div>
+                            <div class="material-textfield mb-3 form-group">
+                                <input id="cemail" class="form-control" placeholder=" " type="email" required
+                                    onblur="validCEmail()">
+                                <label class="cemail">Company Email <span class="text-danger">*</span></label>
+                                <span id="error-email" class="text-danger"></span>
+                            </div>
+                            <div class="material-textfield mb-3 form-group">
+                                <textarea name="question" id="question" class="form-control" placeholder=" " required
+                                    onblur="validCQueries()"></textarea>
+                                <label class="queries">Message/Queries <span class="text-danger">*</span></label>
+                                <span id="error-textarea" class="text-danger"></span>
+                            </div>
+                            <div class="material-textfield mb-3 form-group">
+                                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control"
+                                    placeholder=" " oninput="formatPhoneNumber()" onblur="validatePhoneNumber()"
+                                    required>
+                                <label>Phone Number <span class="text-danger">*</span></label>
+                                <span class="text-danger" id="error-phone"></span>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-baseline textfond">
+                                <h6 class="me-2 link-text"><b>Write to us at :</b></h6>
+                                <p class="ms-1"><a href="mailto:punchcardwithus@gmail.com" target="_blank"
+                                        class="link-style">punchcardwithus@gmail.com</a></p>
+                            </div>
+                            <button type="button" id="savebtn" class="btn btn-green" onclick="validateForm()">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEntryModalLabel">Logout</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <h5 class="fw-bold mb-3">Are you sure you want to log out?</h5>
+                    <button class="btn yes" id="logBtn" style="margin-left: 2%;">Yes</button>
+                    <button class="btn no" data-bs-dismiss="modal" style="margin-left: 2%;">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logoutCall() {
+            localStorage.removeItem("username");
+            localStorage.removeItem("companyID");
+            localStorage.removeItem("customId");
+            localStorage.removeItem("password");
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 10);
+        }
+
+        document.getElementById("logBtn").addEventListener("click", logoutCall);
+
+        function logOutACtion() {
+            let myModal = new bootstrap.Modal(document.getElementById('addEntryModal'));
+            myModal.show();
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+/* Navbar Styles */
+.bg-green {
+    background-color: #0A8080;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rounded-pill-active {
+    border-radius: 50rem;
+    background-color: #fff;
+    color: #0A8080 !important;
+}
+
+.btn-green {
+    color: white;
+    background-color: #0A8080;
+    padding: 5px 30px;
+}
+
+.btn-outline-green {
+    color: #0A8080;
+    border: solid 1px #0A8080;
+    padding: 5px 21px;
+}
+
+/* Form Styles */
+input,
+textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #0A8080 !important;
+    border-radius: 10px !important;
+}
+
+input {
+    height: 3rem;
+}
+
+textarea {
+    height: 6rem;
+}
+
+.box-sty {
+    max-width: 500px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+.modal-content {
+    border: none !important;
+}
+
+.link-text {
+    font-size: 18px;
+}
+
+#savebtn {
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+#savebtn:hover {
+    color: white;
+}
+
+@media (max-width: 576px) {
+
+    .material-textfield input,
+    .material-textfield textarea {
+        padding: 0.4rem 0.3rem !important;
+    }
+
+    .material-textfield label {
+        font-size: 0.7rem;
+    }
+
+    .link-style,
+    .link-text {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 245px) {
+
+    .material-textfield input,
+    .material-textfield textarea {
+        max-width: 80%;
+    }
+
+    .material-textfield label {
+        font-size: 0.5rem;
+    }
+
+    .link-style,
+    .link-text {
+        font-size: 0.5rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .rounded-pill-active {
+        border-radius: 10px;
+        background-color: #fff;
+        width: 140px;
+        color: #0A8080 !important;
+    }
+}
+
+
+#myModalLabel {
+    padding-top: 5%;
+    font-size: 32px;
+}
+
+body {
+    background-color: #f6f6f6;
+}
+
+    .btn-green {
+        background-color: #0A8080;
+        border: none;
+        color: white;
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    .btn-outline-light:hover {
+        background-color: #0A8080;
+        color: white;
+    }

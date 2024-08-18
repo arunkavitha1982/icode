@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="profile.css">
-    <script defer src="./js/profile.js"></script>
+    <script defer src="profile.js"></script>
 
     <style>
         body {
@@ -180,19 +180,7 @@
             margin-left: -10%;
         }
 
-        .yes-button {
-            background-color: #0A8080;
-            border: none;
-            color: white;
-            padding: 5px 21px;
-
-            /* padding: 0.8rem; */
-            font-size: 1.2rem;
-        }
-
-        .yes-button:hover {
-            color: white;
-        }
+    
 
         .btn-outline-light:hover {
             background-color: #0A8080;
@@ -231,20 +219,16 @@
             }
         }
 
+        
         .no {
             color: #0A8080 !important;
             border: solid 1px #0A8080 !important;
             padding: 5px 21px !important;
         }
-       
+
         .yes {
             color: white;
-            background-color: #0A8080;
-            padding: 5px 24px !important;
-        }
-        .yes:hover {
-            color: white;
-            background-color: #0A8080;
+            background-color: #0A8080 !important;
             padding: 5px 24px !important;
         }
     </style>
@@ -296,7 +280,21 @@
         </nav>
     </header>
 
-
+    <div class="modal fade" id="logOut" tabindex="-1" aria-labelledby="logOutLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logOutLabel">Logout</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="fw-bold mb-3">Are you sure you want to log out?</h5>
+                    <button class="btn yes" id="logBtn2">Yes</button>
+                    <button class="btn no" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <h3 class="text-center fw-bold mb-3 mt-4" id="header">Profile</h3>
     <div class="overlay" id="overlay">
@@ -340,14 +338,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="material-textfield mb-4">
-                        <input id="fName" placeholder=" " type="text" class="input-sty">
+                        <input id="firstName" placeholder=" " type="text" class="input-sty">
                         <label class="label-sty">First name</label>
                         <span class="text-danger" id="errorFName"></span>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="material-textfield mb-4">
-                        <input id="lName" placeholder=" " type="text" class="input-sty">
+                        <input id="lastName" placeholder=" " type="text" class="input-sty">
                         <label class="label-sty">Last name</label>
                         <span class="text-danger" id="errorLName"></span>
                     </div>
@@ -362,7 +360,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="material-textfield mb-3">
-                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder=" " class="input-sty"
+                        <input type="tel" id="phone" name="phoneNumber" placeholder=" " class="input-sty"
                             oninput="formatPhoneNumber()">
                         <label class="label-sty">Phone Number</label>
                         <span class="text-danger" id="showMsg3"></span>
@@ -383,42 +381,44 @@
             </div>
         </form>
     </div>
+
     <div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addEntryModalLabel">Delete</h5>
+                    <h5 class="modal-title" id="addEntryModalLabel">Logout</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex align-items-center">
-                    <h5 class="fw-bold mb-3">Are you sure you want to logout?</h5>
-                    <button class="btn yes" id="logBtn" style="margin-left: 2%;">Yes</button>
-                    <button class="btn no" data-bs-dismiss="modal" style="margin-left: 2%;">No</button>
+                    <h5 class="fw-bold mb-3">Are you sure you want to log out?</h5>
+                    <button class="btn btn-green" id="logBtn" style="margin-left: 2%;">Yes</button>
+                    <button class="btn btn-outline-green" data-bs-dismiss="modal" style="margin-left: 2%;">No</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        function logoutCall() {
-            localStorage.removeItem("username");
-            localStorage.removeItem("companyID");
-            localStorage.removeItem("customId");
-            localStorage.removeItem("password");
-
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 10);
-        }
-
-        document.getElementById("logBtn").addEventListener("click", logoutCall);
-
-        function logOutACtion() {
-            let myModal = new bootstrap.Modal(document.getElementById('addEntryModal'));
-            myModal.show();
-        }
-    </script>
-
 </body>
+<script>
+
+    function logoutCall() {
+        localStorage.removeItem("username");
+        localStorage.removeItem("companyID");
+        localStorage.removeItem("customId");
+        localStorage.removeItem("password");
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 10);
+    }
+
+    document.getElementById("logBtn2").addEventListener("click", logoutCall);
+
+    function logOutACtion() {
+        let myModal = new bootstrap.Modal(document.getElementById('logOut'));
+        myModal.show();
+    }
+</script>
+
 </html>
